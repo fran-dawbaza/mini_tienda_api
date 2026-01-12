@@ -1,37 +1,25 @@
+import { peticion } from './modulos/api.js';
+import { guardarSesion } from './modulos/auth.js';
+
 document.addEventListener('DOMContentLoaded', () => {
     const formulario = document.getElementById('formulario-login');
 
     formulario.addEventListener('submit', async (e) => {
-        e.preventDefault(); // Evitar recarga de página
-
+        e.preventDefault();
+        
         const usuario = document.getElementById('usuario').value;
         const clave = document.getElementById('clave').value;
 
         try {
-            const respuesta = await fetch('api/autenticacion.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ usuario: usuario, clave: clave })
-            });
-
-            const datos = await respuesta.json();
-
-            if (respuesta.ok) {
-                localStorage.setItem('token', datos.token);
-                localStorage.setItem('rol', datos.rol);
-                
-                // Redirección según rol
-                if (datos.rol === 'admin') {
-                    window.location.href = 'admin.html';
-                } else {
-                    window.location.href = 'tienda.html';
-                }
-            } else {
-                alert(datos.error || "Error al iniciar sesión");
-            }
+            const datos = await peticion('autenticacion.php', 'POST', { usuario, clave });
+            
+            guardarSesion(datos.token, datos.rol);
+            
+            // Redirección
+            window.location.href = datos.rol === 'admin' ? 'admin.html' : 'tienda.html';
+            
         } catch (error) {
-            console.error('Error:', error);
-            alert("Error de conexión con el servidor");
+            alert(error.message);
         }
     });
 });
