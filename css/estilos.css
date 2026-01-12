@@ -1,0 +1,141 @@
+:root {
+    --primario: #333;
+    --acento: #007bff;
+    --fondo: #f4f4f4;
+    --blanco: #fff;
+    --borde: #ddd;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background: var(--fondo);
+    color: var(--primario);
+}
+
+/* Layout General */
+.contenedor {
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 20px;
+    background: var(--blanco);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.contenedor-login {
+    max-width: 400px;
+    text-align: center;
+}
+
+/* Navegación */
+.navegacion {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--fondo);
+    padding-bottom: 10px;
+}
+
+/* Formularios */
+.grupo-formulario {
+    margin-bottom: 15px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid var(--borde);
+    border-radius: 4px;
+}
+
+/* Botones */
+button {
+    width: 100%;
+    padding: 10px;
+    background: var(--acento);
+    color: var(--blanco);
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: opacity 0.3s;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+button.btn-secundario {
+    background: #6c757d;
+    width: auto;
+    padding: 5px 15px;
+}
+
+button.btn-pequeno {
+    width: auto;
+    margin-top: 10px;
+}
+
+/* Grid de Productos */
+.grid-productos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.tarjeta {
+    border: 1px solid var(--borde);
+    padding: 15px;
+    text-align: center;
+    border-radius: 8px;
+    background: #fff;
+}
+
+/* Layout Tienda */
+.layout-tienda {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.columna-productos {
+    flex: 2;
+}
+
+.columna-carrito {
+    flex: 1;
+    border-left: 1px solid var(--borde);
+    padding-left: 20px;
+}
+
+/* Carrito */
+.item-carrito {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--fondo);
+    padding: 10px 0;
+}
+
+/* Tablas Admin */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid var(--borde);
+    text-align: left;
+}
+
+th {
+    background-color: var(--fondo);
+}
+
+.oculto {
+    display: none;
+}

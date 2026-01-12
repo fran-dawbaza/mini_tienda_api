@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda Virtual</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+    <div class="contenedor">
+        <header class="navegacion">
+            <strong>Bienvenido a la Tienda</strong>
+            <button id="btn-cerrar-sesion" class="btn-secundario">Cerrar Sesión</button>
+        </header>
+
+        <main class="layout-tienda">
+            <section class="columna-productos">
+                <h2>Productos Disponibles</h2>
+                <div id="lista-productos" class="grid-productos">
+                    <p>Cargando productos...</p>
+                </div>
+            </section>
+
+            <aside class="columna-carrito">
+                <h2>Mi Carrito</h2>
+                <div id="items-carrito">El carrito está vacío</div>
+                <h3>Total: <span id="total-carrito">0.00</span>€</h3>
+                <button id="btn-comprar">Finalizar Compra</button>
+            </aside>
+        </main>
+    </div>
+    <script src="js/tienda.js"></script>
+</body>
+</html>

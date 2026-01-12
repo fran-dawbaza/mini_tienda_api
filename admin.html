@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Administración</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+    <div class="contenedor">
+        <header class="navegacion">
+            <strong>Panel Admin</strong>
+            <div>
+                <a href="tienda.html" style="margin-right: 15px;">Ir a Tienda</a>
+                <button id="btn-cerrar-sesion" class="btn-secundario">Salir</button>
+            </div>
+        </header>
+
+        <main>
+            <h2>Listado de Pedidos</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Usuario</th>
+                        <th>Total</th>
+                        <th>Fecha</th>
+                        <th>Detalles</th>
+                    </tr>
+                </thead>
+                <tbody id="lista-pedidos">
+                    <!-- JS llenará esto -->
+                </tbody>
+            </table>
+        </main>
+    </div>
+    <script src="js/admin.js"></script>
+</body>
+</html>
