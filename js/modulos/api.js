@@ -1,5 +1,5 @@
 // js/modulos/api.js
-import { obtenerToken, cerrarSesion, API_URL } from './utilidades.js';
+import { obtenerToken, cerrarSesion, API_URL, mostrarMensaje } from './utilidades.js';
 
 /**
  * Wrapper para fetch que maneja autencicación y errores
@@ -29,6 +29,7 @@ export async function peticion(endpoint, metodo = 'GET', cuerpo = null) {
 
         // Si el token expiró (401), cerramos sesión automáticamente
         if (respuesta.status === 401) {
+            mostrarMensaje("Credenciales no válidas, error " + 401, 'error');
             cerrarSesion();
             //throw new Error("Sin permiso o sesión expirada");
         }
@@ -47,7 +48,7 @@ export async function peticion(endpoint, metodo = 'GET', cuerpo = null) {
         return datos;
 
     } catch (error) {
-        console.error("Error API:", error);
+        mostrarMensaje("Error API:" + error, 'error');
         throw error; // Re-lanzamos el error para que lo maneje la vista
     }
 }

@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             "rol" => $usuario['rol']
         ]);
     } else {
-        http_response_code(401);
+        //http_response_code(401);
         echo json_encode(["error" => "Credenciales incorrectas"]);
     }
 }

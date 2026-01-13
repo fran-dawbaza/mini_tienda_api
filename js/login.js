@@ -1,5 +1,5 @@
 import { peticion } from './modulos/api.js';
-import { guardarSesion } from './modulos/utilidades.js';
+import { guardarSesion,mostrarMensaje  } from './modulos/utilidades.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const formulario = document.getElementById('formulario-login');
@@ -22,6 +22,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // Usamos la función centralizada para guardar token y rol
             guardarSesion(datos.token, datos.rol);
 
+            // Mensaje de éxito antes de redirigir (opcional, pasa muy rápido)
+            // mostrarMensaje("Login correcto, redirigiendo...", "exito");
+
             // Redirección
             if (datos.rol === 'admin') {
                 window.location.href = 'admin.html';
@@ -31,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } catch (error) {
             // El error ya viene procesado desde api.js
-            alert(error.message);
+            mostrarMensaje(error.message, 'error');
         }
     });
 });

@@ -52,3 +52,19 @@ export function verificarSesion(rolRequerido = null) {
 
     return token;
 }
+
+export function mostrarMensaje(texto, tipo = 'exito') {
+    const contenedor = document.getElementById('contenedor-mensajes');
+    if (!contenedor) return;
+
+    contenedor.innerHTML = `
+        <div class="mensaje ${tipo}">
+            ${texto}
+        </div>
+    `;
+
+    // Opcional: Auto-ocultar después de 4 segundos
+    setTimeout(() => {
+        contenedor.innerHTML = '';
+    }, 4000);
+}

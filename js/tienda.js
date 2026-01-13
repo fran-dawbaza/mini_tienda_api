@@ -1,4 +1,4 @@
-import { formateadorEuro, verificarSesion, cerrarSesion } from './modulos/utilidades.js';
+import { formateadorEuro, verificarSesion, cerrarSesion, mostrarMensaje  } from './modulos/utilidades.js';
 import { peticion } from './modulos/api.js';
 
 let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
@@ -41,7 +41,8 @@ async function cargarProductos() {
         console.dir(listaProductosGlobal)
         renderizarProductos(listaProductosGlobal);
     } catch (error) {
-        alert(error.message);
+        mostrarMensaje("Error cargando productos: " + error.message, 'error');
+        //cerrarSesion();
     }
 }
 
@@ -122,15 +123,18 @@ function actualizarVistaCarrito() {
 }
 
 async function finalizarCompra() {
-    if (carrito.length === 0) return alert("Carrito vacío");
+    if (carrito.length === 0) {
+        mostrarMensaje("El carrito está vacío, añade productos primero.", "info");
+        return;
+    }
     const total = carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
 
     try {
         await peticion('pedidos.php', 'POST', { items: carrito, total: total });
-        alert("¡Pedido realizado!");
+        mostrarMensaje("¡Pedido realizado correctamente! Gracias por su compra.", "exito");
         carrito = [];
         actualizarVistaCarrito();
     } catch (error) {
-        alert("Error: " + error.message);
+        mostrarMensaje("No se pudo procesar el pedido: " + error.message, "error");
     }
 }

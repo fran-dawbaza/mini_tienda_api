@@ -1,5 +1,5 @@
 import { peticion } from './modulos/api.js';
-import { verificarSesion, cerrarSesion, formateadorEuro } from './modulos/utilidades.js';
+import { verificarSesion, cerrarSesion, formateadorEuro, mostrarMensaje } from './modulos/utilidades.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     // Si no es el rol admin sale, y la función redirige automáticamente
@@ -17,6 +17,10 @@ async function cargarPedidos() {
 
         // Petición limpia, sin headers manuales
         const pedidos = await peticion('pedidos.php');
+
+        if (pedidos.length === 0) {
+                mostrarMensaje("No hay pedidos registrados todavía.", "info");
+        }
         
         tbody.innerHTML = pedidos.map(pedido=>{
             const items = JSON.parse(pedido.items_json);
@@ -32,6 +36,6 @@ async function cargarPedidos() {
                 </tr>`;
         }).join('');
     } catch (error) {
-        alert(error.message);
+        mostrarMensaje("Error al cargar los pedidos: " + error.message, "error");
     }
 }
