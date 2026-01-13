@@ -139,3 +139,44 @@ th {
 .oculto {
     display: none;
 }
+
+.animacion-cambio {
+    animation: resaltar 0.9s ease-in-out;
+}
+
+@keyframes resaltar {
+    0% { transform: scale(1); color: var(--primario); }
+    50% { transform: scale(1.5); color: var(--acento); } /* Un poco más grande para que se note */
+    100% { transform: scale(1); color: var(--primario); }
+}
+/* Ajuste para que el precio se vea bien */
+.precio {
+    font-weight: bold;
+    color: var(--primario);
+    font-size: 1.1em;
+}
+
+
+.btn-eliminar {
+    background-color: #dc3545; /* Rojo */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+.btn-eliminar:hover {
+    background-color: #c82333;
+}
+
+/* Para alinear mejor los items del carrito */
+.item-carrito {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Centrado vertical */
+    border-bottom: 1px solid var(--fondo);
+    padding: 10px 0;
+}

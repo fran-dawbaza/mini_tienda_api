@@ -14,6 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     $sentencia = $conexion->prepare("INSERT INTO pedidos (usuario_id, total, items_json) VALUES (?, ?, ?)");
     if ($sentencia->execute([$datosUsuario['id'], $datos->total, $itemsJson])) {
+        http_response_code(201); //
         echo json_encode(["mensaje" => "Pedido guardado correctamente"]);
     } else {
         http_response_code(500);
@@ -32,6 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             JOIN usuarios ON pedidos.usuario_id = usuarios.id 
             ORDER BY fecha DESC";
     $sentencia = $conexion->query($sql);
+    http_response_code(200);
     echo json_encode($sentencia->fetchAll(PDO::FETCH_ASSOC));
 }
 ?>

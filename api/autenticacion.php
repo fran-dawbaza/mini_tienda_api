@@ -22,6 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'rol' => $usuario['rol'],
             'exp' => time() + 3600
         ];
+        http_response_code(200);
         echo json_encode([
             "token" => generarJWT($carga_util, $clave_secreta), 
             "rol" => $usuario['rol']

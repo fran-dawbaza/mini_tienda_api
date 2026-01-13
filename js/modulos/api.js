@@ -1,46 +1,53 @@
-import { obtenerToken, cerrarSesion } from './auth.js';
+// js/modulos/api.js
+import { obtenerToken, cerrarSesion, API_URL } from './utilidades.js';
 
-const RUTA_BASE = 'api/';
-
-export async function peticion(endpoint, metodo = 'GET', datos = null) {
-    const url = `${RUTA_BASE}${endpoint}`;
+/**
+ * Wrapper para fetch que maneja autencicación y errores
+ */
+export async function peticion(endpoint, metodo = 'GET', cuerpo = null) {
+    const token = obtenerToken();
     
-    const cabeceras = {
+    const headers = {
         'Content-Type': 'application/json'
     };
 
-    // Si tenemos token, lo inyectamos automáticamente
-    const token = obtenerToken();
     if (token) {
-        cabeceras['Authorization'] = `Bearer ${token}`;
+        headers['Authorization'] = 'Bearer ' + token;
     }
 
-    const opciones = {
+    const config = {
         method: metodo,
-        headers: cabeceras
+        headers: headers
     };
 
-    if (datos) {
-        opciones.body = JSON.stringify(datos);
+    if (cuerpo) {
+        config.body = JSON.stringify(cuerpo);
     }
 
     try {
-        const respuesta = await fetch(url, opciones);
-        
-        // Si el token expiró, no autorizado (401), cerramos sesión automáticamente
+        const respuesta = await fetch(`${API_URL}/${endpoint}`, config);
+
+        // Si el token expiró (401), cerramos sesión automáticamente
         if (respuesta.status === 401) {
             cerrarSesion();
-            throw new Error("Sesión expirada");
+            //throw new Error("Sin permiso o sesión expirada");
         }
 
-        const json = await respuesta.json();
-        
+        // Leemos los datos que llegan en formato JSON
+        const datos = await respuesta.json();
+
+        // Si la respuesta no es correcta (diferente de los códigos 200 a 299)
         if (!respuesta.ok) {
-            throw new Error(json.error || "Error en la petición");
+            if (datos.error)
+                throw new Error(datos.error + ', código ' + respuesta.status);
+            else
+                throw new Error("Error en la petición, código " + respuesta.status);
         }
 
-        return json;
+        return datos;
+
     } catch (error) {
-        throw error;
+        console.error("Error API:", error);
+        throw error; // Re-lanzamos el error para que lo maneje la vista
     }
 }

@@ -1,38 +1,37 @@
 import { peticion } from './modulos/api.js';
-import { verificarAcceso, cerrarSesion } from './modulos/auth.js';
+import { verificarSesion, cerrarSesion, formateadorEuro } from './modulos/utilidades.js';
 
-// Verificar si es admin
-verificarAcceso('admin');
+document.addEventListener('DOMContentLoaded', async () => {
+    // Si no es el rol admin sale, y la función redirige automáticamente
+    const token = verificarSesion('admin');
+    if (!token) return;
 
-document.addEventListener('DOMContentLoaded', () => {
-    const tbody = document.getElementById('lista-pedidos');
-    const btnSalir = document.getElementById('btn-cerrar-sesion');
+    document.getElementById('btn-cerrar-sesion').addEventListener('click', cerrarSesion);
 
-    async function cargarPedidos() {
-        try {
-            const pedidos = await peticion('pedidos.php');
-            tbody.innerHTML = '';
-
-            pedidos.forEach(p => {
-                const items = JSON.parse(p.items_json);
-                const resumen = items.map(i => `${i.cantidad}x ${i.nombre}`).join(', ');
-
-                const fila = document.createElement('tr');
-                fila.innerHTML = `
-                    <td>${p.id}</td>
-                    <td>${p.usuario}</td>
-                    <td>${p.total}€</td>
-                    <td>${p.fecha}</td>
-                    <td><small>${resumen}</small></td>
-                `;
-                tbody.appendChild(fila);
-            });
-        } catch (error) {
-            alert("Error cargando pedidos: " + error.message);
-        }
-    }
-
-    btnSalir.addEventListener('click', cerrarSesion);
-
-    cargarPedidos();
+    await cargarPedidos();
 });
+
+async function cargarPedidos() {
+    try {
+        const tbody = document.getElementById('lista-pedidos');
+
+        // Petición limpia, sin headers manuales
+        const pedidos = await peticion('pedidos.php');
+        
+        tbody.innerHTML = pedidos.map(pedido=>{
+            const items = JSON.parse(pedido.items_json);
+            const detalleTexto = items.map(i => `${i.cantidad}x ${i.nombre}`).join(', ');
+            return `
+                <tr>
+                    <td>${pedido.id}</td>
+                    <td>${pedido.usuario}</td>
+                    <!-- Usamos el mismo formateador que en la tienda -->
+                    <td>${formateadorEuro.format(pedido.total)}</td>
+                    <td>${pedido.fecha}</td>
+                    <td><small>${detalleTexto}</small></td>
+                </tr>`;
+        }).join('');
+    } catch (error) {
+        alert(error.message);
+    }
+}

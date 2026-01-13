@@ -9,6 +9,7 @@ if (!validarJWT()) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $sentencia = $conexion->query("SELECT * FROM productos");
+    http_response_code(200);
     echo json_encode($sentencia->fetchAll(PDO::FETCH_ASSOC));
 }
 ?>

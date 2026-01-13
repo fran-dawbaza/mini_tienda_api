@@ -1,6 +1,12 @@
 <?php
-header("Access-Control-Allow-Origin: *"); // peticiones CORS desde cualquier lugar
+// Permitir solicitudes desde cualquier origen, peticiones cruzadas o CORS
+header("Access-Control-Allow-Origin: *"); 
+// Permitir métodos HTTP específicos (GET, POST, PUT, DELETE, OPTIONS, etc.)
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+// Permitir ciertas cabeceras personalizadas
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
+
+// Vamos a enviar contenido JSON
 header("Content-Type: application/json; charset=UTF-8");
 
 $host = 'localhost';

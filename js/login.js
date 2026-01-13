@@ -1,24 +1,36 @@
 import { peticion } from './modulos/api.js';
-import { guardarSesion } from './modulos/auth.js';
+import { guardarSesion } from './modulos/utilidades.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const formulario = document.getElementById('formulario-login');
 
     formulario.addEventListener('submit', async (e) => {
         e.preventDefault();
-        
+
         const usuario = document.getElementById('usuario').value;
         const clave = document.getElementById('clave').value;
 
         try {
-            const datos = await peticion('autenticacion.php', 'POST', { usuario, clave });
-            
+            // Usamos nuestra función unificada 'peticion'
+            // No hace falta poner 'api/' porque ya está definido en utilidades.js (API_URL)
+            // si definiste API_URL como 'api/', entonces solo pasamos el endpoint:
+            const datos = await peticion('autenticacion.php', 'POST', { 
+                usuario: usuario, 
+                clave: clave 
+            });
+
+            // Usamos la función centralizada para guardar token y rol
             guardarSesion(datos.token, datos.rol);
-            
+
             // Redirección
-            window.location.href = datos.rol === 'admin' ? 'admin.html' : 'tienda.html';
-            
+            if (datos.rol === 'admin') {
+                window.location.href = 'admin.html';
+            } else {
+                window.location.href = 'tienda.html';
+            }
+
         } catch (error) {
+            // El error ya viene procesado desde api.js
             alert(error.message);
         }
     });
