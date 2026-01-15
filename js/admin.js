@@ -25,13 +25,17 @@ async function cargarPedidos() {
         tbody.innerHTML = pedidos.map(pedido=>{
             const items = JSON.parse(pedido.items_json);
             const detalleTexto = items.map(i => `${i.cantidad}x ${i.nombre}`).join(', ');
+            const fechaFormateada = new Date(pedido.fecha).toLocaleString('es-ES', {
+                                                    day: '2-digit', month: '2-digit', year: 'numeric',
+                                                    hour: '2-digit', minute: '2-digit'
+                                                });
             return `
                 <tr>
                     <td>${pedido.id}</td>
                     <td>${pedido.usuario}</td>
                     <!-- Usamos el mismo formateador que en la tienda -->
                     <td>${formateadorEuro.format(pedido.total)}</td>
-                    <td>${pedido.fecha}</td>
+                    <td>${fechaFormateada}</td>
                     <td><small>${detalleTexto}</small></td>
                 </tr>`;
         }).join('');
@@ -39,3 +43,4 @@ async function cargarPedidos() {
         mostrarMensaje("Error al cargar los pedidos: " + error.message, "error");
     }
 }
+
